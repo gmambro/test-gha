@@ -1,9 +1,9 @@
 on:
   - workflow_dispatch
-
 jobs:
   producer-job:
     name: Save output
+    runs-on: ubuntu-latest
     steps:
       - shell: bash
         run: |
@@ -15,9 +15,11 @@ jobs:
           path: output.log
   reader-job:
     needs: producer-job
+    runs-on: ubuntu-latest
     steps:
       - name: Download a single artifact
         uses: actions/download-artifact@v2
         with:
           name: output-log-file
-      - run: echo output-log-file
+      - run: ls -lR
+      - run: cat output.log
